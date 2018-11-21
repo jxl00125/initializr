@@ -234,7 +234,7 @@ class ProjectRequestDocumentFactoryTests extends AbstractInitializrStatTests {
 	}
 
 	private ProjectGeneratedEvent createProjectGeneratedEvent(ProjectRequest request) {
-		return new ProjectGeneratedEvent(request, getMetadata());
+		return new ProjectGeneratedEvent(request, createBuild(), getMetadata());
 	}
 
 }

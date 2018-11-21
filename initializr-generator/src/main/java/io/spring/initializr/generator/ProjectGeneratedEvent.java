@@ -16,6 +16,7 @@
 
 package io.spring.initializr.generator;
 
+import io.spring.initializr.generator.buildsystem.Build;
 import io.spring.initializr.metadata.InitializrMetadata;
 
 /**
@@ -25,9 +26,16 @@ import io.spring.initializr.metadata.InitializrMetadata;
  */
 public class ProjectGeneratedEvent extends ProjectRequestEvent {
 
-	public ProjectGeneratedEvent(ProjectRequest projectRequest,
+	private final Build build;
+
+	public ProjectGeneratedEvent(ProjectRequest projectRequest, Build build,
 			InitializrMetadata metadata) {
 		super(projectRequest, metadata);
+		this.build = build;
+	}
+
+	public Build getBuild() {
+		return this.build;
 	}
 
 }

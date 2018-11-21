@@ -132,7 +132,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 				.andRespond(withStatus(HttpStatus.CREATED)
 						.body(mockResponse(UUID.randomUUID().toString(), true))
 						.contentType(MediaType.APPLICATION_JSON));
-		this.statPublisher.handleEvent(createProjectGeneratedEvent(request));
+		handleEvent(request);
 		this.mockServer.verify();
 	}
 
@@ -156,7 +156,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 						.body(mockResponse(UUID.randomUUID().toString(), true))
 						.contentType(MediaType.APPLICATION_JSON));
 
-		this.statPublisher.handleEvent(createProjectGeneratedEvent(request));
+		handleEvent(request);
 		this.mockServer.verify();
 	}
 
@@ -177,7 +177,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 						.body(mockResponse(UUID.randomUUID().toString(), true))
 						.contentType(MediaType.APPLICATION_JSON));
 
-		this.statPublisher.handleEvent(createProjectGeneratedEvent(request));
+		handleEvent(request);
 		this.mockServer.verify();
 	}
 
@@ -198,7 +198,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 						.body(mockResponse(UUID.randomUUID().toString(), true))
 						.contentType(MediaType.APPLICATION_JSON));
 
-		this.statPublisher.handleEvent(createProjectGeneratedEvent(request));
+		handleEvent(request);
 		this.mockServer.verify();
 	}
 
@@ -219,7 +219,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 						.body(mockResponse(UUID.randomUUID().toString(), true))
 						.contentType(MediaType.APPLICATION_JSON));
 
-		this.statPublisher.handleEvent(createProjectGeneratedEvent(request));
+		handleEvent(request);
 		this.mockServer.verify();
 	}
 
@@ -241,7 +241,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 						.body(mockResponse(UUID.randomUUID().toString(), true))
 						.contentType(MediaType.APPLICATION_JSON));
 
-		this.statPublisher.handleEvent(createProjectGeneratedEvent(request));
+		handleEvent(request);
 		this.mockServer.verify();
 	}
 
@@ -262,7 +262,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 						.body(mockResponse(UUID.randomUUID().toString(), true))
 						.contentType(MediaType.APPLICATION_JSON));
 
-		this.statPublisher.handleEvent(createProjectGeneratedEvent(request));
+		handleEvent(request);
 		this.mockServer.verify();
 	}
 
@@ -284,7 +284,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 						.body(mockResponse(UUID.randomUUID().toString(), true))
 						.contentType(MediaType.APPLICATION_JSON));
 
-		this.statPublisher.handleEvent(createProjectGeneratedEvent(request));
+		handleEvent(request);
 		this.mockServer.verify();
 	}
 
@@ -302,12 +302,13 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 				.andExpect(method(HttpMethod.POST))
 				.andRespond(withStatus(HttpStatus.INTERNAL_SERVER_ERROR));
 
-		this.statPublisher.handleEvent(createProjectGeneratedEvent(request));
+		handleEvent(request);
 		this.mockServer.verify();
 	}
 
-	private ProjectGeneratedEvent createProjectGeneratedEvent(ProjectRequest request) {
-		return new ProjectGeneratedEvent(request, getMetadata());
+	private void handleEvent(ProjectRequest request) {
+		this.statPublisher.handleEvent(
+				new ProjectGeneratedEvent(request, createBuild(), getMetadata()));
 	}
 
 	private static String mockResponse(String id, boolean created) {
