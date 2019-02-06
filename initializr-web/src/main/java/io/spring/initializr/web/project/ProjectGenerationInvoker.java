@@ -202,7 +202,7 @@ public class ProjectGenerationInvoker {
 			ProjectGenerationContext context) {
 		Build build = context.getBeanProvider(Build.class).getIfAvailable();
 		InitializrMetadata metadata = context.getBean(InitializrMetadata.class);
-		ProjectGeneratedEvent event = new ProjectGeneratedEvent(request, build, metadata);
+		ProjectGeneratedEvent event = new ProjectGeneratedEvent(request, metadata);
 		this.eventPublisher.publishEvent(event);
 	}
 

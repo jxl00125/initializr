@@ -307,8 +307,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 	}
 
 	private void handleEvent(WebProjectRequest request) {
-		this.statPublisher.handleEvent(
-				new ProjectGeneratedEvent(request, createBuild(), getMetadata()));
+		this.statPublisher.handleEvent(new ProjectGeneratedEvent(request, getMetadata()));
 	}
 
 	private static String mockResponse(String id, boolean created) {
