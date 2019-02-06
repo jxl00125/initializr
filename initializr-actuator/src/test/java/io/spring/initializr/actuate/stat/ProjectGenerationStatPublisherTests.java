@@ -26,8 +26,8 @@ import java.util.Collections;
 import java.util.UUID;
 
 import io.spring.initializr.actuate.stat.StatsProperties.Elastic;
-import io.spring.initializr.generator.ProjectGeneratedEvent;
-import io.spring.initializr.generator.ProjectRequest;
+import io.spring.initializr.web.project.ProjectGeneratedEvent;
+import io.spring.initializr.web.project.WebProjectRequest;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -124,7 +124,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 
 	private void testAuthorization(String expectedUri,
 			RequestMatcher authorizationMatcher) {
-		ProjectRequest request = createProjectRequest();
+		WebProjectRequest request = createProjectRequest();
 		request.setGroupId("com.example.foo");
 		request.setArtifactId("my-project");
 		this.mockServer.expect(requestTo(expectedUri)).andExpect(method(HttpMethod.POST))
@@ -138,7 +138,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 
 	@Test
 	void publishDocument() {
-		ProjectRequest request = createProjectRequest();
+		WebProjectRequest request = createProjectRequest();
 		request.setGroupId("com.example.acme");
 		request.setArtifactId("project");
 		request.setType("maven-project");
@@ -162,7 +162,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 
 	@Test
 	void publishDocumentWithNoClientInformation() {
-		ProjectRequest request = createProjectRequest();
+		WebProjectRequest request = createProjectRequest();
 		request.setGroupId("com.example.acme");
 		request.setArtifactId("test");
 		request.setType("gradle-project");
@@ -183,7 +183,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 
 	@Test
 	void publishDocumentWithInvalidType() {
-		ProjectRequest request = createProjectRequest();
+		WebProjectRequest request = createProjectRequest();
 		request.setGroupId("com.example.acme");
 		request.setArtifactId("test");
 		request.setType("not-a-type");
@@ -204,7 +204,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 
 	@Test
 	void publishDocumentWithInvalidLanguage() {
-		ProjectRequest request = createProjectRequest();
+		WebProjectRequest request = createProjectRequest();
 		request.setGroupId("com.example.acme");
 		request.setArtifactId("test");
 		request.setType("gradle-project");
@@ -225,7 +225,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 
 	@Test
 	void publishDocumentWithInvalidJavaVersion() {
-		ProjectRequest request = createProjectRequest();
+		WebProjectRequest request = createProjectRequest();
 		request.setGroupId("com.example.acme");
 		request.setArtifactId("test");
 		request.setType("gradle-project");
@@ -247,7 +247,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 
 	@Test
 	void publishDocumentWithInvalidDependencies() {
-		ProjectRequest request = createProjectRequest();
+		WebProjectRequest request = createProjectRequest();
 		request.setGroupId("com.example.acme");
 		request.setArtifactId("test");
 		request.setType("gradle-project");
@@ -268,7 +268,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 
 	@Test
 	void recoverFromError() {
-		ProjectRequest request = createProjectRequest();
+		WebProjectRequest request = createProjectRequest();
 
 		this.mockServer.expect(requestTo("http://example.com/elastic/initializr/request"))
 				.andExpect(method(HttpMethod.POST))
@@ -290,7 +290,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 
 	@Test
 	void fatalErrorOnlyLogs() {
-		ProjectRequest request = createProjectRequest();
+		WebProjectRequest request = createProjectRequest();
 		this.retryTemplate.setRetryPolicy(new SimpleRetryPolicy(2,
 				Collections.singletonMap(Exception.class, true)));
 
@@ -306,7 +306,7 @@ class ProjectGenerationStatPublisherTests extends AbstractInitializrStatTests {
 		this.mockServer.verify();
 	}
 
-	private void handleEvent(ProjectRequest request) {
+	private void handleEvent(WebProjectRequest request) {
 		this.statPublisher.handleEvent(
 				new ProjectGeneratedEvent(request, createBuild(), getMetadata()));
 	}

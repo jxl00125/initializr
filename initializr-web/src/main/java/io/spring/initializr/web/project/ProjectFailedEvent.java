@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2017 the original author or authors.
+ * Copyright 2012-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,31 @@
  * limitations under the License.
  */
 
-package io.spring.initializr.generator;
+package io.spring.initializr.web.project;
 
-import io.spring.initializr.generator.buildsystem.Build;
 import io.spring.initializr.metadata.InitializrMetadata;
 
 /**
- * Event published when a new project has been generated successfully.
+ * Event published when an error occurred trying to generate a project.
  *
  * @author Stephane Nicoll
  */
-public class ProjectGeneratedEvent extends ProjectRequestEvent {
+public class ProjectFailedEvent extends ProjectRequestEvent {
 
-	private final Build build;
+	private final Exception cause;
 
-	public ProjectGeneratedEvent(ProjectRequest projectRequest, Build build,
-			InitializrMetadata metadata) {
-		super(projectRequest, metadata);
-		this.build = build;
+	public ProjectFailedEvent(WebProjectRequest request, InitializrMetadata metadata,
+			Exception cause) {
+		super(request, metadata);
+		this.cause = cause;
 	}
 
-	public Build getBuild() {
-		return this.build;
+	/**
+	 * Return the cause of the failure.
+	 * @return the cause of the failure
+	 */
+	public Exception getCause() {
+		return this.cause;
 	}
 
 }
