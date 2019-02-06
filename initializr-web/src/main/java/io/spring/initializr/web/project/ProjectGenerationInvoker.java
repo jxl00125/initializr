@@ -94,7 +94,7 @@ public class ProjectGenerationInvoker {
 		}
 		catch (ProjectGenerationException | InitializrException ex) {
 			publishProjectFailedEvent(request, metadata, ex);
-			throw new IllegalStateException(ex);
+			throw ex;
 		}
 	}
 
@@ -126,7 +126,7 @@ public class ProjectGenerationInvoker {
 		}
 		catch (ProjectGenerationException | InitializrException ex) {
 			publishProjectFailedEvent(request, metadata, ex);
-			throw new IllegalStateException(ex); // TODO
+			throw ex;
 		}
 	}
 

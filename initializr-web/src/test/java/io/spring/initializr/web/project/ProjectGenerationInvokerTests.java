@@ -224,7 +224,7 @@ public class ProjectGenerationInvokerTests {
 
 		ProjectFailedEventMatcher(ProjectRequest request, Exception cause) {
 			this.request = request;
-			this.cause = (Exception) cause.getCause();
+			this.cause = cause;
 		}
 
 		@Override
