@@ -25,11 +25,11 @@ import java.util.Map;
 import io.spring.initializr.generator.io.IndentingWriterFactory;
 import io.spring.initializr.generator.io.SimpleIndentStrategy;
 import io.spring.initializr.generator.project.ProjectDirectoryFactory;
+import io.spring.initializr.generator.spring.test.ProjectAssert;
+import io.spring.initializr.generator.spring.test.build.GradleBuildAssert;
+import io.spring.initializr.generator.spring.test.build.PomAssert;
 import io.spring.initializr.metadata.InitializrMetadata;
 import io.spring.initializr.metadata.InitializrMetadataProvider;
-import io.spring.initializr.test.generator.GradleBuildAssert;
-import io.spring.initializr.test.generator.PomAssert;
-import io.spring.initializr.test.generator.ProjectAssert;
 import io.spring.initializr.test.metadata.InitializrMetadataTestBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -118,7 +118,7 @@ public class ProjectGenerationInvokerTests {
 		String content = new String(bytes);
 		new PomAssert(content).hasGroupId(request.getGroupId())
 				.hasArtifactId(request.getArtifactId()).hasVersion(request.getVersion())
-				.hasPackaging(request.getPackaging()).hasName(request.getName())
+				.doesNotHaveNode("/project/packaging").hasName(request.getName())
 				.hasDescription(request.getDescription())
 				.hasJavaVersion(request.getJavaVersion())
 				.hasSpringBootParent(request.getBootVersion());
